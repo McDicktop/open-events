@@ -1,0 +1,7 @@
+.input_wrapper{
+    transition: border .2s ease-in-out;
+}
+
+.input_wrapper:not(.custom):focus-within {
+    border-color: #1c1c1c;
+}
