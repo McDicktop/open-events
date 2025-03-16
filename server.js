@@ -6,11 +6,13 @@ const app = express();
 const mongoose = require("mongoose");
 
 const authRouter = require("./routes/authRouter.js");
+const eventRouter = require("./routes/eventRouter.js");
 
 
 app.use(express.json());
 app.use(cors());
 app.use("/auth", authRouter);
+app.use("/event", eventRouter);
 
 const start = async () => {
 

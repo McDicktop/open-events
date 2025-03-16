@@ -1,4 +1,11 @@
 module.exports = {
     secret: "secret_key",
-    performances: ['excursion', 'exhibition', 'concert', 'meeting']
+    // preferences: ['excursion', 'exhibition', 'concert', 'meeting'], // Тэги (предпочтения)
+    type: ['excursion', 'exhibition', 'concert', 'meeting'], // Типы мероприятий
+    preferences: {
+        music: ['pop', 'rock', 'electronic', 'classical', 'world music', 'punk', 'metal'],
+        films: ['romantic', 'comedy', 'drama', 'horror', 'tv-series', 'sports'],
+        art: ['modern', 'abstract', 'realism', 'academicism', ''],
+        activity: ['excursion', 'dance', 'yoga'],
+    }
 }

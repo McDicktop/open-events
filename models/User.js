@@ -1,7 +1,18 @@
 const { Schema, model } = require('mongoose');
 const Joi = require("joi");
 
+const { preferences } = require("../config.js");
+const tags = Object.values(preferences).flat();
+
+
 const UserSchema = new Schema({
+    role: {
+        type: String,
+        required: [true, 'role is required'],
+        default: 'user',
+        enum: { values: ['user', 'creator'], message: '{VALUE} is not supported' }
+    },
+
     firstname: {
         type: String,
         default: 'firstname',
@@ -33,6 +44,8 @@ const UserSchema = new Schema({
 
     dateOfBirth: {
         type: Number,
+        min: Date.now() - 100*365*24*60*60*1000, // 100 лет
+        max: Date.now() - 10*365*24*60*60*1000,  // 10 лет
         default: 0,
         required: [true, "date of birth is required"],
     },
@@ -62,72 +75,40 @@ const UserSchema = new Schema({
         required: [true, "avatar is required"],
     },
 
-    preferences: {
+    preferences: { // tags
         type: [String],
+        enum: { values: tags, message: '{VALUE} is not supported' },
         default: [],
-        required: [true, "preferences are required"],
-    },
-
-    events: {
-        type: [{
-            id: {
-                type: String,
-            },
-            status: {
-                type: Boolean,
-            },
-        }],
-        default: [],
-        required: [true, "events are required"],
     },
 
     likes: {
         type: [String],
         default: [],
-        required: [true, "likes are required"],
     },
 
     friends: {
-        type: [{
-            id: {
-                type: String,                
-            },
-            dateOfBirth: {
-                type: Number,
-            }
-        }],
+        type: [String],
         default: [],
-        required: [true, "friends are required"],
     },
 
-    // events: [
-    //     {
-    //         name: ,
-    //         date: ,
-    //         price: ,
-    //         id: ,
-    //         status: 'или был на мероприятии или нет'
-    //     }
-    // ],
-    // likes: [
-    //     'id', 'id', 'id'
-    // ],
-    // friends: [
-    //     {
-    //         id,
-    //         dateOfAdding:
-    //     }
-    // ],
+    events: {
+        type: [String],
+        default: [],
+    },
 
 });
 
 const User = model("User", UserSchema);
 
 const userValidation = Joi.object({
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
+    role: Joi.string().required(),
+    // firstname: Joi.string().required(),
+    firstname: Joi.string().alphanum().min(3).max(30).required(),
+    
+    lastname: Joi.string().alphanum().min(3).max(30).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9!?-_]{6,12}$')).required(), // ?????
+    // password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9!?@$_]{6,12}$')).required(), // ?????
+    password: Joi.string().min(8).max(64).required(), 
     status: Joi.boolean().required(),
     dateOfBirth: Joi.number().required(),
     address: Joi.object({
@@ -136,20 +117,14 @@ const userValidation = Joi.object({
         street: Joi.string().required(),
     }),
     avatar: Joi.string().required(),
-    preferences: Joi.array().items(Joi.string()).required(),
-    events: Joi.array().items(Joi.object({
-        id: Joi.string(),
-        status: Joi.boolean(),
-    })).required(),
-    likes: Joi.array().items(Joi.string()).required(),
-    friends: Joi.array().items(Joi.object({
-        id: Joi.string(),
-        dateOfBirth: Joi.number(),
-    })).required(),
- 
+    preferences: Joi.array().items(Joi.string()),    
+    likes: Joi.array().items(Joi.string()),
+    friends: Joi.array().items(Joi.string()),
+    events: Joi.array().items(Joi.string()),
 });
 
 module.exports = {
     User,
     userValidation,
 };
+
