@@ -1,12 +1,15 @@
 const Router = require("express");
 const router = new Router();
-// const controller  = require("../controller/eventController.js");
 const { upload, controller } = require("../controller/eventController.js");
 const middleware = require("../middleware/authMiddleware.js");
 
-router.post("/", middleware, upload.array('images'), controller.addEvent);
-router.delete("/:id", middleware, controller.deleteEvent);
-router.put("/:id", middleware, controller.editEvent);
-router.get("/", middleware, controller.getEvents);
+router.get("/", controller.getEvents);
+router.post("/", middleware, upload.array('images'), controller.addEvent);  // создание события
+
+router.delete("/:id", middleware, controller.deleteEvent);                  // удаление события по id
+router.put("/:id", middleware, controller.editEvent);                       // редактирование события по id
+
+router.get("/user/:id", controller.getUserEvents);                        // получение всех событий пользователя                      
+
 
 module.exports = router;

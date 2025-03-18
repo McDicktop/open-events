@@ -7,11 +7,6 @@ const ReviewSchema = new Schema({
         required: [true, "user id is required"],
     },
 
-    event_id: {
-        type: Schema.Types.ObjectId,
-        required: [true, "event id is required"],
-    },
-
     rating: {
         type: Number,
         min: 1,
@@ -26,7 +21,6 @@ const ReviewSchema = new Schema({
 
     images: {
         type: [String],
-        required: true,
         validate: {
             validator: function (v) {
                 return Array.isArray(v) && v.length >= 0 && v.length <= 5;
@@ -34,6 +28,7 @@ const ReviewSchema = new Schema({
             message:
                 "The length of images array must be between 0 and 5 items.",
         },
+        default: [],
     }, 
 
 });
@@ -42,10 +37,9 @@ const Review = model("Review", ReviewSchema);
 
 const reviewValidation = Joi.object({
     user_id: Joi.string().required(),
-    event_id: Joi.string().required(),
     rating: Joi.number().min(1).max(5).required(),
     description: Joi.string().min(3).max(256).required(),
-    images: Joi.array().items(Joi.string()).required(),
+    images: Joi.array().items(Joi.string()),
 });
 
 module.exports = {

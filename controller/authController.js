@@ -1,4 +1,4 @@
-const { User, userValidation } = require("../models/User.js");
+const { User, primaryValidation, extendedValidation } = require("../models/User.js");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -29,14 +29,15 @@ class authController {
         try {
             const { email, password, role } = req.body;
 
-            // const { error } = userValidation.validate( req.body );
-            // if (error) {
-            //     return res
-            //         .status(400)
-            //         .json({ message: error.details[0].message });
-            // }
+            const { error } = primaryValidation.validate( req.body );
 
-            // if(!valid(email, password)) throw new Error('Validation email/password error');
+            if (error) {
+                return res
+                    .status(400)
+                    .json({ message: error.details[0].message });
+            }
+
+            
 
             const hashPassword = bcrypt.hashSync(password, 7);
             const existedUser = await User.findOne({ email });
@@ -85,14 +86,14 @@ class authController {
     async userUpdate(req, res) {
         try {
 
-            // const { firstname, lastname, dateOfBirth, address, avatar } = req.body;
+            
 
-            // const { error } = userValidation.validate( {firstname, lastname, dateOfBirth, address, avatar}  );
-            // if (error) {
-            //     return res
-            //         .status(400)
-            //         .json({ message: error.details[0].message });
-            // }
+            const { error } = extendedValidation.validate(req.body);
+            if (error) {
+                return res
+                    .status(400)
+                    .json({ message: error.details[0].message });
+            }
 
 
             const { id } = req.user; // id из middleware

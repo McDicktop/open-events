@@ -16,12 +16,33 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 class eventController {
+  // маршрут для получения всех событий (добавить элементарную фильтрацию (по названию, по описанию))
   async getEvents(req, res) {
     try {
-      const { id } = req.user;
-      const owner = await User.find();
-      if (!owner) {
-        return res.status(404).json({ message: "Event organizer not found" });
+      const { title, description } = req.query;
+      // if (!title && !description) {
+      //   return res.status(400).json({ message: "No filter params" });
+      // }
+
+      const events = await Event.find({title: {$regex: title, $options: 'i'}, description: {$regex: description, $options: 'i'}});
+
+      // фильтрация
+      // console.log(events.filter((el) => el.title.includes(title)));
+
+
+      return res.status(200).send(events);
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+
+  async getUserEvents(req, res) { // возвращает все события пользователя по id
+    try {
+      const { id } = req.params;
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: "Invalid user ID!" });
       }
       const events = await Event.find({ user_id: id });
       return res.status(200).json(events);
@@ -82,7 +103,7 @@ class eventController {
       const event = await Event.findByIdAndUpdate(
         event_id,
         { ...req.body },
-        { new: true}
+        { new: true }
       );
       await event.save();
       return res.status(200).send(event);
