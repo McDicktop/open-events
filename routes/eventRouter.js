@@ -9,7 +9,8 @@ router.post("/", middleware, upload.array('images'), controller.addEvent);  // �
 router.delete("/:id", middleware, controller.deleteEvent);                  // удаление события по id
 router.put("/:id", middleware, controller.editEvent);                       // редактирование события по id
 
-router.get("/user/:id", controller.getUserEvents);                        // получение всех событий пользователя                      
+router.get("/user/:id", controller.getUserEvents);                        // получение всех событий пользователя           
 
+router.patch("/like", middleware, controller.toggleLike);
 
 module.exports = router;

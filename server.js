@@ -11,6 +11,9 @@ const eventRouter = require("./routes/eventRouter.js");
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/cache/images", express.static("cache/images")); 
+
 app.use("/auth", authRouter);
 app.use("/event", eventRouter);
 

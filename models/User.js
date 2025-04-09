@@ -89,6 +89,11 @@ const UserSchema = new Schema({
         default: [],
     },
 
+    orders: {
+        type: [String],
+        default: [],
+    }
+
 });
 
 const User = model("User", UserSchema);
@@ -113,6 +118,7 @@ const extendedValidation = Joi.object({
     likes: Joi.array().items(Joi.string()),
     friends: Joi.array().items(Joi.string()),
     events: Joi.array().items(Joi.string()),    
+    orders: Joi.array().items(Joi.string()),    
 })
 
 

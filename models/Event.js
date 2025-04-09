@@ -26,11 +26,16 @@ const EventSchema = new Schema({
     date: {
         type: Date,        
         required: [true, 'date is required'],
-        default: Date.now,
     },
     duration: {
         type: Number,
         required: false,
+    },
+    price: {
+        type: Number,
+        min: 0,
+        max: 1000000,
+        default: 0,
     },
     images: {
         type: [String],
@@ -105,6 +110,7 @@ const eventValidation = Joi.object({
     type: Joi.string().required(),
     date: Joi.date().required(),
     duration: Joi.number().min(10).max(30*24*60*60),
+    price: Joi.number().min(0).max(1000000).required(),
     images: Joi.array().items(Joi.string()).required(),
     location: Joi.object({
         latitude: Joi.number().min(-90).max(90).required(),
