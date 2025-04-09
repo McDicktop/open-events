@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setToken, setIsCompleted, updateUserInfo } from "../../../features/userSlice";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../services/user.api";
 import O2Auth from "../../common/O2Auth";
@@ -7,28 +9,82 @@ import EmailIcon from "../../../assets/EmailIcon";
 import PasswordIcon from "../../../assets/PasswordIcon";
 import { O2AUTH_PROVIDERS } from "../../../constants";
 
+
+
 function SigninForm() {
+    const dispatch = useDispatch();
+
     const navigate = useNavigate();
 
-    const [user, setUser] = useState({
+    const [userAuth, setUserAuth] = useState({
         email: "",
         password: "",
     });
 
     const handleChange = (e, key) => {
-        setUser((prev) => ({ ...prev, [key]: e.target.value }));
+        setUserAuth((prev) => ({ ...prev, [key]: e.target.value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await loginUser(user);
-
+        const res = await loginUser(userAuth);
         if (!res.message) {
-            localStorage.setItem("token", res.token);
+            const { token, user } = res;
+
+            const {
+                _id,
+                status,
+                role,
+                email,
+                firstname,
+                lastname,
+                address,
+                avatar,
+                dateOfBirth,
+                events,
+                friends,
+                likes,
+                orders,
+                preferences,
+            } = user;
+
+
+
+
+            localStorage.setItem("token", token);
+
+            dispatch(setToken(token));
+            // dispatch(setIsCompleted(user.status));
+            dispatch(setIsCompleted(status));
+
+            // dispatch(updateUserInfo({ id: user._id }));
+            // dispatch(updateUserInfo({ likes: user.likes }));
+
+            dispatch(
+                updateUserInfo({
+                    id: _id,
+                    role,
+                    email,
+                    firstname,
+                    lastname,
+                    address,
+                    avatar,
+                    dateOfBirth,
+                    events,
+                    friends,
+                    likes,
+                    orders,
+                    preferences,
+                })
+            );
+
+
+
+
             navigate("/");
             return;
         }
-        console.log(res.response.data.message);
+        alert(res.response.data.message);
     };
 
     return (
@@ -42,14 +98,14 @@ function SigninForm() {
                 <div className="flex flex-col gap-[12px]">
                     <InputField
                         type="email"
-                        value={user.email}
+                        value={userAuth.email}
                         handleChange={(e) => handleChange(e, "email")}
                         placeholder="Enter your email address"
-                        icon={<EmailIcon />}
+                        icon={<EmailIcon className={'w-8 h-8'} strokeWidth={'1.5'} />}
                     />
                     <InputField
                         type="password"
-                        value={user.password}
+                        value={userAuth.password}
                         handleChange={(e) => handleChange(e, "password")}
                         placeholder="Enter your password"
                         isPassword={true}

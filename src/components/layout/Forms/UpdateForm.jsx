@@ -17,8 +17,9 @@ function UpdateForm() {
         dateOfBirth: 1234,
         address: { country: "Russia", city: "Moscow", street: "Valovaya" },
         avatar: "url(...)",
-        preferences: ["movies", "music", "art"],
-        role: "user",  /////////////////
+        // status: true,
+
+        
     });
 
     // const handleChange = (e, key) => {
@@ -43,11 +44,7 @@ function UpdateForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-
-
-        const res = await updateUser(user.info.id, userInfo);
-
+        await updateUser(userInfo, user.token);
         dispatch(setIsCompleted(true));
         dispatch(updateUserInfo(user));
     };

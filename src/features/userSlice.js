@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     info: {
         id: null, 
-        email: '',
-        name: '',
-        surname: '',
+        // email: '',
+        // name: '',
+        // surname: '',
     },
     token: null,
     isCompleted: null,
-    loading: false,
+    // loading: false,
 }
 
 // {...info, ...payload}

@@ -16,7 +16,26 @@ export const createUser = async (user) => {
     }
 };
 
-export const loginUser = async (user) => {
+
+
+
+export const updateUser = async (user, token) => {
+    try {
+        const { data } = await axios.put(backend_url + "auth/",
+            user, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+        );
+        return data;
+    } catch (e) {
+        console.log(e)
+        return e;
+    }
+}
+
+export const loginUser = async (user) => {                  // Получаем данные пользователя через передачу логин / пароль
     try {
         const res = await axios.post(backend_url + "auth/signin", {
             email: user.email,
@@ -29,21 +48,10 @@ export const loginUser = async (user) => {
     }
 };
 
-
-export const updateUser = async (id, user) => {
-    try {
-        const { data } = await axios.put(backend_url + "auth/" + id, user);
-        return data;
-    } catch (e) {
-        console.log(e)
-        return e;
-    }
-}
-
-export const getUserData = async (token) => {
+export const getUserData = async (token) => {                   // Получаем данные пользователя через передачу токена
 
     try {
-        const res = await axios.get(backend_url + "auth/user", {
+        const res = await axios.get(backend_url + "auth/", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

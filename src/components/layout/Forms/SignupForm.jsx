@@ -94,7 +94,7 @@ function SignupForm() {
             arg.email &&
             arg.password &&
             arg.password === arg.repeatPassword &&
-            (arg.role === 'user' || arg.role === 'executor') &&
+            (arg.role === 'user' || arg.role === 'creator') &&
             passwordStrength(user.password) > 1 &&
             EmailValidator.validate(user.email) &&
             document.getElementById("rules").checked
@@ -110,11 +110,12 @@ function SignupForm() {
         e.preventDefault();
 
         if (!isFormValid(user)) {
-            console.log("invalid form data");
+            alert("invalid form data");
             return;
         }
 
         const res = await createUser(user);
+
 
         if (!res.message) {
             localStorage.setItem('token', res.token);
@@ -125,7 +126,7 @@ function SignupForm() {
             navigate('/')
             return;
         }
-        console.log(res.response.data.message);
+        alert(res.response.data.message);
     };
 
 
@@ -204,14 +205,14 @@ function SignupForm() {
                     <input
                         className="hidden"
                         type="radio"
-                        id="executor"
-                        value="executor"
-                        checked={user.role === "executor"}
-                        onChange={() => handleRadioChange("executor")}
+                        id="creator"
+                        value="creator"
+                        checked={user.role === "creator"}
+                        onChange={() => handleRadioChange("creator")}
                     />
                     <label
-                        htmlFor="executor"
-                        className={`block w-full cursor-pointer rounded-3xl leading-10 select-none ease-in duration-300 ${user.role === "executor"
+                        htmlFor="creator"
+                        className={`block w-full cursor-pointer rounded-3xl leading-10 select-none ease-in duration-300 ${user.role === "creator"
                             ? "text-white"
                             : "text-gray-700"
                             } font-semibold`}
@@ -228,7 +229,7 @@ function SignupForm() {
                         value={user.email}
                         handleChange={(e) => handleChange(e, "email")}
                         placeholder="Enter your email address"
-                        icon={<EmailIcon />}
+                        icon={<EmailIcon className={'w-8 h-8'} strokeWidth={'1.5'} />}
                         color={borderColor.email}
                         handleBlur={() => handleBlur("email")}
                     />
