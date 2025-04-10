@@ -15,7 +15,7 @@ const Modal = (props) => {
       className={popupStyles.overlay}
     >
       <div className={popupStyles.popup}>
-        <h2>{props.title}</h2>
+        {/* <h2>{props.title}</h2> */}
         <span className={popupStyles.close} onClick={props.onClose}>
           &times;
         </span>
@@ -35,6 +35,14 @@ Modal.propTypes = {
 export default Modal;
 
 
+
+// Profile (data, map)
+// General
+// Security
+// Admin
+// Friends
+// __________
+// Logout
 
 
 

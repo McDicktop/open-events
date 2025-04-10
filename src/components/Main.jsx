@@ -7,7 +7,7 @@ import UpdateForm from "./layout/Forms/UpdateForm";
 import EventsGrid from "./layout/EventsGrid";
 import EventsGridUnsigned from "./layout/EventsGridUnsigned";
 import NavPanel from "./layout/NavPanel";
-import Profile from "./common/Profile";
+import Profile from "./common/Profile/Profile";
 import Modal from "./layout/Modal";
 
 function Main() {
@@ -35,7 +35,7 @@ function Main() {
 
                     <Modal
                         onClose={() => dispatch(modalProfileHandler(false))}
-                        show={app.modalProfile}
+                        show={user.info.id && app.modalProfile}
                         title="Profile"
                     >
                         {/* <div className="w-64 h-64 bg-gray-400"> */}
