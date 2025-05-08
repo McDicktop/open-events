@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import ProfileIcon from "../../../assets/ProfileIcon";
-
-// import ProfileIcon from '../../../assets/ProfileName';
-// import EmailIcon from '../../../assets/EmailIcon';
-// import EmailIcon from '../../../assets/EmailIcon';
+import SettingsIcon from "../../../assets/SettingsIcon";
+import PrivacyIcon from "../../../assets/PrivacyIcon";
+import FriendsIcon from "../../../assets/FriendsIcon";
 
 // Panel slides components
-import General from "./General";
+import Settings from "./Settings";
 import User from "./User";
 import Security from "./Security";
 import Friends from "./Friends";
 
+
 function Profile() {
-    const [activeTab, setActiveTab] = useState("general");
+    const [activeTab, setActiveTab] = useState("settings");
 
     const profileItems = [
-        { key: "general", label: "General", component: General, icon: ProfileIcon },
-        { key: "user", label: "Account", component: User, icon: ProfileIcon },
-        { key: "security", label: "Security", component: Security, icon: ProfileIcon },
-        { key: "friends", label: "Friends", component: Friends, icon: ProfileIcon },
+        { key: "settings", label: "Settings", component: Settings, icon: SettingsIcon, className: 'w-6 h-6' },
+        { key: "user", label: "Account", component: User, icon: ProfileIcon, className: 'w-6 h-6' },
+        { key: "security", label: "Security", component: Security, icon: PrivacyIcon, className: 'w-6 h-6' },
+        { key: "friends", label: "Friends", component: Friends, icon: FriendsIcon, className: 'w-6 h-6' },
     ];
 
     const handleTabChange = (tabKey) => {
@@ -35,44 +35,53 @@ function Profile() {
         return <ActiveComponent />;
     };
 
-    const renderActiveIcon = () => {
-        const activeItem = profileItems.find((item) => item.key === activeTab);
-        if (!activeItem) return null;
+    // const renderActiveIcon = () => {
+    //     const activeItem = profileItems.find((item) => item.key === activeTab);
+    //     if (!activeItem) return null;
 
-        const ActiveIcon = activeItem.icon;
-        return <ActiveIcon className="w-full h-full" />;
-    };
+    //     const ActiveIcon = activeItem.icon;
+    //     return <ActiveIcon className="w-full h-full" />;
+    // };
+
+    const renderIcon = (item) => {
+        const Icon = item.icon;
+        return <Icon className={item.className} />
+    }
+
+
+
 
     return (
-        <div className="flex overflow-hidden bg-white rounded-xl">
+        <div className="flex overflow-hidden bg-gray-100 rounded-xl p-1">
             {/* Sidebar */}
-            <div className="w-36 border-r border-gray-200">
-                <ul className="py-2 flex flex-col">
+            <div className="w-48">
+                <ul className="py-2 flex flex-col items-center">
                     {profileItems.map((item) => (
                         <li
                             key={item.key}
                             onClick={() => handleTabChange(item.key)}
-                            className={`rounded-full px-4 py-3 cursor-pointer flex items-center transition-colors duration-150
+                            className={`mb-2 rounded-2xl px-4 py-1 cursor-pointer flex items-center transition-colors duration-150 flex flex-row items-center w-40
                                 ${activeTab === item.key
-                                    ? 'bg-blue-50 text-blue-600'
-                                    : 'text-gray-700 hover:bg-gray-100'}`}
+                                    ? 'bg-gray-300 font-semibold'
+                                    : 'text-gray-700 hover:bg-gray-200'}`}
                         >
-                            <span className="w-5 h-5 border rounded-full">
-                                {renderActiveIcon()}
+                            <span className="p-1 rounded-full">
+                                {/* {renderActiveIcon()} */}
+                                {renderIcon(item)}
                             </span>
-                            <span className="ml-2">{item.label}</span>
+                            <span className="ml-2 select-none">{item.label}</span>
                         </li>
                     ))}
                 </ul>
-                <div className="mt-auto p-4">
-                    <button className="w-full py-2 px-4 text-center text-white bg-red-500 hover-bg-red-600 rounded-full">
-                        Logout
+                <div className="p-4 mt-10">
+                    <button className="w-full py-2 px-4 text-center text-white bg-red-400 hover:bg-red-500 rounded-2xl duration-100">
+                        Log out
                     </button>
                 </div>
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-3 border bg-white rounded-xl ml-1">
                 {renderActiveComponent()}
             </div>
         </div>
@@ -80,36 +89,3 @@ function Profile() {
 }
 
 export default Profile;
-
-// Profile (data, map)
-// General
-// Security
-// Admin
-// Friends
-// __________
-// Logout
-
-{
-    /* {user.info && <div className='w-full h-full rounded-xl p-4 border'>
-                {console.log(user)}
-                <div className='flex items-center border'>
-                    <ProfileName className='w-5 h-5' />
-                    <p className="">
-                        {user.info.firstname + ' ' + user.info.lastname}
-                    </p>
-                </div>
-
-                <div className='flex items-center border'>
-                    <EmailIcon className='w-4 h-4 ml-[2px] mr-[4px]' />
-                    <p className="">
-                        {user.info.email}
-                    </p>
-                </div>
-
-                <div className=''>
-                    <p className="">
-                        {user.info.address?.country + ', ' + user.info.address?.city + ', ' + user.info.address?.street}
-                    </p>
-                </div>
-            </div>} */
-}

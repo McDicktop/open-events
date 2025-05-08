@@ -1,6 +1,6 @@
 import React from "react";
 
-function MyLocation({className = 'w-4 h-4', strokeWidth = '2'}) {
+function MyLocation({ className = 'w-4 h-4', strokeWidth = '2' }) {
     return (
         <svg
             className={className}

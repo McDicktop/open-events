@@ -5,12 +5,14 @@ import App from "./App.jsx";
 
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-
+import { ThemeProvider } from "./store/ThemeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
-        <Provider store={store}>
-            <App />
-        </Provider>
+        <ThemeProvider>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </ThemeProvider>
     </StrictMode>
 );

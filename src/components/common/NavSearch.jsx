@@ -4,7 +4,7 @@ import { getEvents } from "../../services/event.api";
 import { useDispatch } from "react-redux";
 import { updateEvents } from "../../features/eventsSlice";
 
-import Search from "../../assets/Search";
+import SearchIcon from "../../assets/SearchIcon";
 import FilterIcon from "../../assets/FilterIcon";
 
 function NavSearch() {
@@ -37,7 +37,7 @@ function NavSearch() {
       />
 
       <div onClick={() => submit()}>
-        <Search className="w-6 h-6 cursor-pointer" strokeWidth="3" />
+        <SearchIcon className="w-6 h-6 cursor-pointer" strokeWidth="3" />
       </div>
 
     </div>

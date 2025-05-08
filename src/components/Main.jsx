@@ -9,6 +9,7 @@ import EventsGridUnsigned from "./layout/EventsGridUnsigned";
 import NavPanel from "./layout/NavPanel";
 import Profile from "./common/Profile/Profile";
 import Modal from "./layout/Modal";
+import ThemeSelector from "./common/ThemeSelector";
 
 function Main() {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function Main() {
 
             {user.token && user.isCompleted && (
                 <>
+                    <ThemeSelector/>
                     <NavPanel />
                     <EventsGrid userId={user.info.id} isOwnVisible={visible} />
 
